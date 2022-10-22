@@ -1,6 +1,5 @@
 FROM rust:latest
+COPY . ./string_rust
 WORKDIR /string_rust
-COPY . .
-EXPOSE 5000
-RUN cargo install --path .
-CMD ["string_rust"]
+RUN cargo build --release
+CMD ["./target/release/string_rust"]
