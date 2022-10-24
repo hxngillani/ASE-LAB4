@@ -7,7 +7,7 @@ services:
       - 5001:5001
   
   string-service:
-    build: ./math_py
+    build: ./string_rust
     ports:  
       - 5000:5000
  
