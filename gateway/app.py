@@ -6,7 +6,7 @@ from urls import *
 
 ALLOWED_MATH_OPS = ['add', 'sub', 'mul', 'div', 'mod']
 ALLOWED_STR_OPS = ['lower', 'upper', 'concat', 'editdistance']
-
+ALLOWED_RND_OPS = ['rand']
 app = Flask(__name__, instance_relative_config=True)
 
 
@@ -22,6 +22,21 @@ def math(op):
         return x.json()
     except ConnectionError:
         return make_response('Math service is down\n', 404)
+    except HTTPError:
+        return make_response('Invalid input\n', 400)
+
+@app.route('/rand/<op>')
+def random(op):
+    a = request.args.get('a', type=float)
+    b = request.args.get('b', type=float)
+    if op not in ALLOWED_RND_OPS:
+        return make_response('Invalid operation\n', 404)
+    try:
+        x = requests.get(RANDOM_URL + f'/{op}?a={a}&b={b}')
+        x.raise_for_status()
+        return x.json()
+    except ConnectionError:
+        return make_response('RANDOM service is down\n', 404)
     except HTTPError:
         return make_response('Invalid input\n', 400)
 

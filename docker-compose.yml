@@ -15,3 +15,8 @@ services:
     build: ./gateway
     ports:  
       - 5002:5002
+
+  random-service:
+    build: ./random_py
+    ports:  
+      - 5004:5004
